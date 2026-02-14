@@ -9,7 +9,7 @@ const { allowRoles } = require("../middlewares/roleMiddleware");
 
 
 router.post("/", protect, allowRoles("admin"), createHostel);
-router.get("/", protect, getHostels);
+router.get("/",getHostels);
 
 
 module.exports = router;

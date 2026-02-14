@@ -4,11 +4,10 @@ const { protect } = require("../middlewares/authMiddleware");
 const { allowRoles } = require("../middlewares/roleMiddleware");
 
 
-const { login, changePassword, createUserByAdmin } = require("../controllers/authController");
+const { login, changePassword, createWardenByAdmin } = require("../controllers/authController");
 
 
 router.post("/login", login);
 router.post("/change-password", changePassword);
-router.post("/create-user", protect, allowRoles("admin"), createUserByAdmin);
-
+router.post("/create-warden", protect, allowRoles("admin"), createWardenByAdmin);
 module.exports = router;
