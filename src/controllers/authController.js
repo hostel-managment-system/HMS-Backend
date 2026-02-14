@@ -69,16 +69,21 @@ exports.changePassword = async (req, res) => {
 
 
 // ADMIN creates admin / warden
-exports.createUserByAdmin = async (req, res) => {
+exports.createWardenByAdmin = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
 
-    // allow only admin or warden roles creation here
+    // basic validation
+    if (!name || !email || !password || !role) {
+      return res.status(400).json({ message: "All fields required" });
+    }
+
+    // allow only admin or warden creation
     if (!["admin", "warden"].includes(role)) {
       return res.status(400).json({ message: "Invalid role" });
     }
 
-    // check duplicate
+    // duplicate check
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ message: "Email already exists" });
@@ -89,6 +94,7 @@ exports.createUserByAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
+      name, // ✅ FIXED
       email,
       password: hashedPassword,
       role,
@@ -101,8 +107,7 @@ exports.createUserByAdmin = async (req, res) => {
       userId: user._id,
     });
   } catch (error) {
-    console.error(error.message);
+    console.error("CREATE WARDEN ERROR:", error.message);
     res.status(500).json({ message: "Server error" });
   }
 };
-

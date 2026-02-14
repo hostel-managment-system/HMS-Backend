@@ -7,6 +7,6 @@ const { allowRoles } = require("../middlewares/roleMiddleware");
 
 // infrastructure → admin
 router.post("/", protect, allowRoles("admin"), createRoom);
-router.get("/", protect, getRooms);
+router.get("/",getRooms);
 
 module.exports = router;
