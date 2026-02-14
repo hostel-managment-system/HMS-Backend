@@ -2,6 +2,8 @@ const AllocationRequest = require("../models/AllocationRequest");
 const Allocation = require("../models/Allocation");
 const Room = require("../models/Room");
 const User = require("../models/User");
+const Profile = require("../models/Profile");
+
 const bcrypt = require("bcryptjs");
 
 exports.createRequest = async (req, res) => {
@@ -66,14 +68,14 @@ exports.approveRequest = async (req, res) => {
     const hashedPassword = await bcrypt.hash("123456", 10);
 
     // create user
-    const newUser = await User.create({
-      name: request.name,
-      email: request.email,
-      phone: request.phone,
-      password: hashedPassword,
-      role: "student",
-      hostelStatus: "approved",
-    });
+  const newUser = await User.create({
+  name: request.name,
+  email: request.email,
+  password: hashedPassword,
+  role: "student",
+  hostelStatus: "approved",
+});
+
 
     // create allocation
     await Allocation.create({
